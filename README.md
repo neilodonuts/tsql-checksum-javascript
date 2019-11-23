@@ -42,6 +42,22 @@ while the ones on the right change. When I experimented with `O0` and `0O`
 (opposites in terms of lower nibble bits) I noticed that the 12 bits reflected
 two perfectly opposite 6-bit pairs.
 
+## SQL Server in VirtualBox
+
+I'm running SQL Server (Express) in VirtualBox on a Windows 10 VM. This is a
+[free thing provided by Microsoft](https://developer.microsoft.com/en-us/windows/downloads/virtual-machines)
+but it's not without hazards. I routinely mess up the configuration so that I
+am unable to connect to it. So here's my reference checklist:
+
+  1. NAT port forwarding for 1433 on VirtualBox: use 127.0.0.1 on host and blank on guest so that port is only open to the host itself.
+  2. TCP/IP protocol enabled in SQL Server Configuration Manager.
+  3. Windows Firewall rule to allow SQL Server (or turned off) on _both_ public and private networks,.
+  4. SQL Server Browser service is enabled and automatically started. 
+
+I set this up myself and later found a [nice tutorial on StackOverflow](https://stackoverflow.com/a/37616522/9642).
+
+Free Windows VMs provided by Microsoft: 
+
 ## Links
 
   * [Inconsistent CHECKSUM results](https://social.msdn.microsoft.com/Forums/sqlserver/en-US/a0818cd0-cd84-43ad-9266-2c50c38affdf/inconsistent-checksum-results?forum=transactsql)
