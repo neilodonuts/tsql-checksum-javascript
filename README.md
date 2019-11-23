@@ -9,6 +9,8 @@ work on so I created this repo. If you'd like to help me, drop me a line!
 
 This is going to get messy!
 
+![Figure 1-1](data/pair-o0.png "Zero and O")
+
 I got started on this quest after posting what I thought was an innocuous
 question on StackOverflow:
 
