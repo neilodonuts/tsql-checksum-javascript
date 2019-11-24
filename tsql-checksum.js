@@ -18,10 +18,19 @@ var xorcodes = [
     166, 167, 61, 62, 63, 64, 65, 66,  // yz{|}~
 ];
 
+function rol(x, n) {
+    return (x<<n) | (x>>>(32-n));  // >>> preserves the sign bit
+}
+
 exports.checksum = function checksum(s) {
     var checksum = 0;
+    var bits = 4;
     for (var i = 0; i < s.length; i++) {
-        checksum <<= 4;
+        bits += 4;
+
+        // simulate ROL (rotate left shift)
+        checksum = rol(checksum, 4);
+
         var c = s.charCodeAt(i);
         var xorcode = 0;
         if (c < xorcodes.length) {

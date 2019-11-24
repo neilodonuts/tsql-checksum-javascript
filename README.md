@@ -1,15 +1,20 @@
 # tsql-checksum-javascript
-T-SQL's CHECKSUM() algorithm reverse engineered and implemented in JavaScript
+T-SQL's `CHECKSUM()` algorithm reverse engineered and implemented in JavaScript
 
-Apologies in advance but you will not yet find the work finished here. I'm
-working on it or rather planning to work on it but I needed to have something to
-work on so I created this repo. If you'd like to help me, drop me a line!
+What _is_ the algorithm? It's a simple circular (rotate) shift left by a nibble
+(4 bits) and a XOR of each character translated into a "code". The code is _not_
+ASCII but it is related because lowercase letters bear the same codes as their
+uppercase counterparts and digits have codes just before "A". To see the codes
+and the algorithm itself, take a peek at `tsql-checksum.js`!
+
+## Limitations
+
+So far this is only working with ASCII and a limited number of strings. I have
+not yet tested with funky characters, Unicode, etc. I have no doubt that there
+will be some issues there that relate to how SQL Server is configured for
+collation and locale.
 
 ## Background
-
-This is going to get messy!
-
-![Figure 1-1](data/pair-o0.png "Zero and O")
 
 I got started on this quest after posting what I thought was an innocuous
 question on StackOverflow:
@@ -31,18 +36,16 @@ is actually for `BINARY_CHECKSUM()` rather than `CHECKSUM()`. Doh! This repo
 will *not* be for that function for which code has already been created that
 seems to work in my brief tests of it.
 
-I played with various XOR'ing and ROL'ing with a few letters and numbers and
-although I didn't come up with a solution I did clearly see that there is a
-pattern. My initial focus will be on ASCII (VARCHAR) and then I'll move onto
-Unicode (NVARCHAR).
+Thus I created _this_ project to take over where those left off and to solve the
+mystery that no one was bothered by. I knew it wouldn't be too complicated when
+I noticed very specific patterns between one and two character ASCII
+combinations:
 
-As soon as I can figure out how to put some nice tables into this README, I'll
-add some information about the patterns I've seen. At a glance I'll say that
-the first character generates a byte-long value (8 bits) and then new characters
-shift that a nibble (4 bits) to the left. The bits on the left remain the same
-while the ones on the right change. When I experimented with `O0` and `0O`
-(opposites in terms of lower nibble bits) I noticed that the 12 bits reflected
-two perfectly opposite 6-bit pairs.
+![Figure 1-1](data/pair-o0.png "Zero and O")
+
+The `data/pairs.csv` contains the `CHECKSUM()` output for all ASCII pairs but be
+careful with those code points above 128; that stuff is currently untested in
+my implementation.
 
 ## SQL Server in VirtualBox
 
