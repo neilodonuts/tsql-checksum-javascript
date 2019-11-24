@@ -19,16 +19,13 @@ var xorcodes = [
 ];
 
 function rol(x, n) {
-    return (x<<n) | (x>>>(32-n));  // >>> preserves the sign bit
+    // simulate a rotate shift left (>>> preserves the sign bit)
+    return (x<<n) | (x>>>(32-n));
 }
 
 exports.checksum = function checksum(s) {
     var checksum = 0;
-    var bits = 4;
     for (var i = 0; i < s.length; i++) {
-        bits += 4;
-
-        // simulate ROL (rotate left shift)
         checksum = rol(checksum, 4);
 
         var c = s.charCodeAt(i);
