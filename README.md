@@ -7,12 +7,12 @@ ASCII but it is related because lowercase letters bear the same codes as their
 uppercase counterparts and digits have codes just before "A". To see the codes
 and the algorithm itself, take a peek at `tsql-checksum.js`!
 
-## Limitations
+## Limitations / Disclaimer
 
-So far this is only working with ASCII and a limited number of strings. I have
-not yet tested with funky characters, Unicode, etc. I have no doubt that there
-will be some issues there that relate to how SQL Server is configured for
-collation and locale.
+My work has focused only on ASCII strings using the (`VARCHAR`) data type and on
+SQL Server instances with the default collation setting:
+`SQL_Latin1_General_CP1_CI_AS`. I have no doubt the same algorithm is used but
+with different binary input and XOR codes for other collation and data types.
 
 ## Background
 
